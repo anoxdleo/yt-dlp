@@ -18,7 +18,7 @@ from ..utils import (
 
 
 class ShemarooMeIE(InfoExtractor):
-    _VALID_URL = r'(?:https?://)(?:www\.)?shemaroome\.com/(?:movies|shows)/(?P<id>[^?#]+)'
+    _VALID_URL = r'(?:https?://)(?:www\.)?shemaroome\.com/(?:movies|shows|gujarati-plays|gujarati-promos|marathi-plays|bollywood-retro-15min-movies|all-channels|music|gujarati-video-songs|kids-rhymes)/(?P<id>[^?#]+)'
     _TESTS = [{
         'url': 'https://www.shemaroome.com/movies/dil-hai-tumhaara',
         'info_dict': {
@@ -57,6 +57,7 @@ class ShemarooMeIE(InfoExtractor):
         iv = [0] * 16
         m3u8_url = intlist_to_bytes(aes_cbc_decrypt(data, key, iv))
         m3u8_url = m3u8_url[:-compat_ord((m3u8_url[-1]))].decode('ascii')
+        m3u8_url = m3u8_url.replace("free", "paid")
         formats = self._extract_m3u8_formats(m3u8_url, video_id, fatal=False)
         self._sort_formats(formats)
 
